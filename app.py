@@ -17,7 +17,51 @@ def chat():
 
 @app.route("/")
 def home():
-    return "¡Hola! El chatbot escolar está funcionando."
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    return """
+    <html>
+      <head>
+        <style>
+          body { font-family: Arial; margin: 0; padding: 0; }
+          #chatbox { border:1px solid #ccc; border-radius:10px; width:100%; height:100%; display:flex; flex-direction:column; }
+          #messages { flex:1; padding:10px; overflow-y:auto; }
+          .msg { margin:5px 0; padding:8px; border-radius:8px; max-width:80%; }
+          .user { background:#d1e7dd; align-self:flex-end; }
+          .bot { background:#f8d7da; align-self:flex-start; }
+          #inputArea { display:flex; border-top:1px solid #ccc; }
+          #inputArea input { flex:1; padding:10px; border:none; border-radius:0; }
+          #inputArea button { padding:10px; border:none; background:#007bff; color:white; }
+        </style>
+      </head>
+      <body>
+        <div id="chatbox">
+          <div id="messages"></div>
+          <div id="inputArea">
+            <input id="message" placeholder="Escribe tu pregunta...">
+            <button onclick="sendMessage()">Enviar</button>
+          </div>
+        </div>
+        <script>
+          async function sendMessage() {
+            const msg = document.getElementById("message").value;
+            if (!msg) return;
+            addMessage(msg, "user");
+            document.getElementById("message").value = "";
+            const res = await fetch('/chat', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({message: msg})
+            });
+            const data = await res.json();
+            addMessage(data.reply, "bot");
+          }
+          function addMessage(text, type) {
+            const div = document.createElement("div");
+            div.className = "msg " + type;
+            div.innerText = text;
+            document.getElementById("messages").appendChild(div);
+            div.scrollIntoView();
+          }
+        </script>
+      </body>
+    </html>
+    """
