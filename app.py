@@ -54,7 +54,7 @@ def home():
         <script>
           // Mensaje de bienvenida automático
           window.onload = function() {
-            addMessage("¡Hola! Bienvenido al Chatbot de Informática de la EST No. 56. Pregúntame sobre la materia de informática.", "bot");
+            addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o exámenes.", "bot");
           };
 
           async function sendMessage() {
@@ -79,7 +79,7 @@ def home():
             div.scrollIntoView();
           }
 
-          // Botón minimizar
+          // Botón minimizar dentro del chat
           document.getElementById("minimizeBtn").addEventListener("click", function() {
             document.getElementById("chatbox").style.display = "none";
           });
