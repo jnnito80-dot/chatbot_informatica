@@ -21,15 +21,67 @@ def home():
     <html>
       <head>
         <style>
-          body { font-family: Arial; margin: 0; padding: 0; }
-          #chatbox { border:1px solid #ccc; border-radius:10px; width:100%; height:100%; display:flex; flex-direction:column; }
-          #messages { flex:1; padding:10px; overflow-y:auto; }
-          .msg { margin:5px 0; padding:8px; border-radius:8px; max-width:80%; }
-          .user { background:#d1e7dd; align-self:flex-end; }
-          .bot { background:#f8d7da; align-self:flex-start; }
-          #inputArea { display:flex; border-top:1px solid #ccc; }
-          #inputArea input { flex:1; padding:10px; border:none; border-radius:0; }
-          #inputArea button { padding:10px; border:none; background:#007bff; color:white; }
+          body { 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #eef5ff; /* mismo fondo que tu página */
+          }
+          #chatbox { 
+            border: 2px solid #4285f4; 
+            border-radius: 10px; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            background-color: #ffffff; /* fondo blanco para contraste */
+          }
+          #messages { 
+            flex: 1; 
+            padding: 10px; 
+            overflow-y: auto; 
+            background-color: #f9fbff; /* azul muy claro */
+          }
+          .msg { 
+            margin: 5px 0; 
+            padding: 10px; 
+            border-radius: 8px; 
+            max-width: 80%; 
+            font-size: 0.95em;
+          }
+          .user { 
+            background: #4285f4; /* azul fuerte */
+            color: #fff; /* texto blanco */
+            align-self: flex-end; 
+          }
+          .bot { 
+            background: #ffeb3b; /* amarillo brillante */
+            color: #000; /* texto negro */
+            align-self: flex-start; 
+          }
+          #inputArea { 
+            display: flex; 
+            border-top: 1px solid #ccc; 
+            background-color: #eef5ff; 
+          }
+          #inputArea input { 
+            flex: 1; 
+            padding: 10px; 
+            border: none; 
+            background-color: #fff; 
+            color: #000; 
+          }
+          #inputArea button { 
+            padding: 10px; 
+            border: none; 
+            background: #4285f4; 
+            color: white; 
+            cursor: pointer; 
+            font-weight: bold;
+          }
+          #inputArea button:hover { 
+            background: #3064c9; 
+          }
         </style>
       </head>
       <body>
@@ -65,3 +117,6 @@ def home():
       </body>
     </html>
     """
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
