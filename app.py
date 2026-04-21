@@ -1,17 +1,11 @@
 from flask import Flask, request, jsonify
+import json
 
 app = Flask(__name__)
 
-faq = {
-    "¿cuándo es la evaluación del primer grado?": "La evaluación de 1° será en la última semana de mayo.",
-    "¿cuándo es la evaluación del segundo grado?": "La evaluación de 2° será en la primera semana de junio.",
-    "¿cuándo es la evaluación del tercer grado?": "La evaluación de 3° será en la segunda semana de junio.",
-    "¿cuándo son los exámenes de recuperación?": "Los exámenes de recuperación serán en la primera semana de julio.",
-    "¿cuándo es la evaluación del tercer trimestre?": "Del 8 al 12 de junio.",
-    "¿cuál es la liga de la guía de primer grado?": "https://bit.ly/4gYbYGs",
-    "¿cuál es la liga de la guía de segundo grado?": "https://bit.ly/473bNoZ",
-    "¿cuál es la liga de la guía de tercer grado?": "https://bit.ly/4nDryK5"
-}
+# Cargar preguntas frecuentes desde faq.json
+with open("faq.json", "r", encoding="utf-8") as f:
+    faq = json.load(f)
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -42,7 +36,7 @@ def home():
       <body>
         <div id="chatbox">
           <div id="header">
-            <span>🤖 Chatbot Escolar</span>
+            <span>🤖 Chatbot T56</span>
             <span id="minimizeBtn">—</span>
           </div>
           <div id="messages"></div>
@@ -58,8 +52,8 @@ def home():
             div.innerText = text;
             document.getElementById("messages").appendChild(div);
             div.scrollIntoView();
-          }    
-          
+          }
+
           async function sendMessage() {
             const msg = document.getElementById("message").value;
             if (!msg) return;
@@ -76,10 +70,10 @@ def home():
 
           // Mensaje de bienvenida automático
           window.onload = function() {
-            addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o exámenes.", "bot");
+            addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o guías.", "bot");
           };
 
-          // Botón minimizar dentro del chat
+          // Botón minimizar
           document.getElementById("minimizeBtn").addEventListener("click", function() {
             document.getElementById("chatbox").style.display = "none";
           });
