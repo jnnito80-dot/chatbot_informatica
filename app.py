@@ -16,7 +16,7 @@ def chat():
         response = faq[user_message]
     else:
         # Buscar coincidencia más cercana
-        posibles = difflib.get_close_matches(user_message, faq.keys(), n=1, cutoff=0.5)
+        posibles = difflib.get_close_matches(user_message, faq.keys(), n=1, cutoff=0.6)
         if posibles:
             response = faq[posibles[0]]
         else:
