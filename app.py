@@ -1,17 +1,29 @@
 from flask import Flask, request, jsonify
 import json
+import difflib
 
 app = Flask(__name__)
 
-# Cargar preguntas frecuentes desde faq.json
 with open("faq.json", "r", encoding="utf-8") as f:
     faq = json.load(f)
 
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message", "").lower()
-    response = faq.get(user_message, "Lo siento, aún no tengo respuesta para esa pregunta.")
+
+    # Buscar coincidencia exacta
+    if user_message in faq:
+        response = faq[user_message]
+    else:
+        # Buscar coincidencia más cercana
+        posibles = difflib.get_close_matches(user_message, faq.keys(), n=1, cutoff=0.5)
+        if posibles:
+            response = faq[posibles[0]]
+        else:
+            response = "Lo siento, aún no tengo respuesta para esa pregunta."
+
     return jsonify({"reply": response})
+
 
 @app.route("/")
 def home():
