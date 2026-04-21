@@ -6,10 +6,10 @@ faq = {
     "¿cuándo es la evaluación del primer grado?": "La evaluación de 1° será en la última semana de mayo.",
     "¿cuándo es la evaluación del segundo grado?": "La evaluación de 2° será en la primera semana de junio.",
     "¿cuándo es la evaluación del tercer grado?": "La evaluación de 3° será en la segunda semana de junio.",
-    "¿cuándo son los exámenes de recuperación?": "Los exámenes de recuperación serán en la primera semana de julio."
-    "¿cuándo es la evaluación del tercer trimestre?": "Del 8 al 12 de junio."
-    "¿cuál es la liga de la guía de primer grado?": "https://bit.ly/4gYbYGs"
-    "¿cuál es la liga de la guía de segundo grado?": "https://bit.ly/473bNoZ"
+    "¿cuándo son los exámenes de recuperación?": "Los exámenes de recuperación serán en la primera semana de julio.",
+    "¿cuándo es la evaluación del tercer trimestre?": "Del 8 al 12 de junio.",
+    "¿cuál es la liga de la guía de primer grado?": "https://bit.ly/4gYbYGs",
+    "¿cuál es la liga de la guía de segundo grado?": "https://bit.ly/473bNoZ",
     "¿cuál es la liga de la guía de tercer grado?": "https://bit.ly/4nDryK5"
 }
 
@@ -52,11 +52,14 @@ def home():
           </div>
         </div>
         <script>
-          // Mensaje de bienvenida automático
-          window.onload = function() {
-            addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o exámenes.", "bot");
-          };
-
+          function addMessage(text, type) {
+            const div = document.createElement("div");
+            div.className = "msg " + type;
+            div.innerText = text;
+            document.getElementById("messages").appendChild(div);
+            div.scrollIntoView();
+          }    
+          
           async function sendMessage() {
             const msg = document.getElementById("message").value;
             if (!msg) return;
@@ -71,13 +74,10 @@ def home():
             addMessage(data.reply, "bot");
           }
 
-          function addMessage(text, type) {
-            const div = document.createElement("div");
-            div.className = "msg " + type;
-            div.innerText = text;
-            document.getElementById("messages").appendChild(div);
-            div.scrollIntoView();
-          }
+          // Mensaje de bienvenida automático
+          window.onload = function() {
+            addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o exámenes.", "bot");
+          };
 
           // Botón minimizar dentro del chat
           document.getElementById("minimizeBtn").addEventListener("click", function() {
