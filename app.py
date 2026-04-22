@@ -57,14 +57,20 @@ def home():
           </div>
         </div>
         <script>
-          function addMessage(text, type) {
-            const div = document.createElement("div");
-            div.className = "msg " + type;
-            div.innerText = text;
-            document.getElementById("messages").appendChild(div);
-            div.scrollIntoView();
-          }
+            function addMessage(text, type) {
+                const div = document.createElement("div");
+                div.className = "msg " + type;
 
+                // 1. Reemplazar saltos de línea por <br>
+               // 2. Convertir enlaces en clicables
+                const formatted = text
+                  .replace(/\n/g, "<br>")
+                  .replace(/(https?:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>');
+
+                div.innerHTML = formatted;
+                document.getElementById("messages").appendChild(div);
+                div.scrollIntoView();
+              }
           async function sendMessage() {
             const msg = document.getElementById("message").value;
             if (!msg) return;
@@ -84,10 +90,6 @@ def home():
             addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o guías.", "bot");
           };
 
-          // Botón minimizar
-          document.getElementById("minimizeBtn").addEventListener("click", function() {
-            document.getElementById("chatbox").style.display = "none";
-          });
         </script>
       </body>
     </html>
