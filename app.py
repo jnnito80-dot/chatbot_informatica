@@ -49,7 +49,6 @@ def home():
         <div id="chatbox">
           <div id="header">
             <span>🤖 Chatbot T56</span>
-            <span id="minimizeBtn">—</span>
           </div>
           <div id="messages"></div>
           <div id="inputArea">
