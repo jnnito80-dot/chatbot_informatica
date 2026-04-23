@@ -22,101 +22,56 @@ def chat():
 
     return jsonify({"reply": response})
 
-
 @app.route("/")
 def home():
     return """
     <html>
       <head>
         <style>
-          body { 
-              font-family: 'Segoe UI', sans-serif; 
-              margin:0; 
-              padding:0; 
-              background-color:#1e1e1e; /* Fondo oscuro */
-              color:#e0e0e0; /* Texto claro */
-            }
-            
-            #chatbox { 
-              border:2px solid #4285f4; 
-              border-radius:10px; 
-              width:100%; 
-              height:100%; 
-              display:flex; 
-              flex-direction:column; 
-              background-color:#2c2c2c; /* Caja oscura */
-            }
-            
-            #header { 
-              background:#333; 
-              color:#fff; 
-              padding:10px; 
-              display:flex; 
-              justify-content:center; 
-              align-items:center; 
-              font-weight:bold;
-            }
-            
-            #messages { 
-              flex:1; 
-              padding:10px; 
-              overflow-y:auto; 
-              background-color:#1e1e1e; /* Fondo oscuro */
-            }
-            
-            .msg { 
-              margin:5px 0; 
-              padding:10px; 
-              border-radius:8px; 
-              max-width:80%; 
-              font-size:0.95em; 
-            }
-            
-            .user { 
-              background:#4285f4; /* Azul brillante */
-              color:#fff; 
-              align-self:flex-end; 
-            }
-            
-            .bot { 
-              background:#ffeb3b; /* Amarillo vibrante */
-              color:#000; 
-              align-self:flex-start; 
-            }
-            
-            #inputArea { 
-              display:flex; 
-              border-top:1px solid #555; 
-              background-color:#2c2c2c; 
-            }
-            
-            #inputArea input { 
-              flex:1; 
-              padding:10px; 
-              border:none; 
-              background-color:#1e1e1e; 
-              color:#e0e0e0; 
-            }
-            
-            #inputArea button { 
-              padding:10px; 
-              border:none; 
-              background:#4285f4; 
-              color:white; 
-              cursor:pointer; 
-              font-weight:bold; 
-            }
-            
-            #inputArea button:hover { 
-              background:#3064c9; 
-            }
+          body.light-theme {
+            font-family: 'Segoe UI', sans-serif;
+            margin:0; padding:0;
+            background-color:#f5f5f5; /* Fondo claro */
+            color:#000;
+          }
+          body.dark-theme {
+            font-family: 'Segoe UI', sans-serif;
+            margin:0; padding:0;
+            background-color:#1e1e1e; /* Fondo oscuro */
+            color:#e0e0e0;
+          }
 
+          #chatbox { 
+            border:2px solid #4285f4; border-radius:10px;
+            width:100%; height:100%;
+            display:flex; flex-direction:column;
+            background-color:inherit;
+          }
+          #header { 
+            background:#333; color:white;
+            padding:10px; display:flex;
+            justify-content:space-between; align-items:center;
+            font-weight:bold;
+          }
+          #messages { flex:1; padding:10px; overflow-y:auto; }
+          .msg { margin:5px 0; padding:10px; border-radius:8px; max-width:80%; font-size:0.95em; }
+          .user { background:#4285f4; color:#fff; align-self:flex-end; }
+          .bot { background:#ffeb3b; color:#111; align-self:flex-start; } /* Texto oscuro sobre amarillo */
+          #inputArea { display:flex; border-top:1px solid #555; }
+          #inputArea input { flex:1; padding:10px; border:none; }
+          #inputArea button { padding:10px; border:none; background:#4285f4; color:white; cursor:pointer; font-weight:bold; }
+          #inputArea button:hover { background:#3064c9; }
+          #themeToggle {
+            background:none; border:none; cursor:pointer;
+            font-size:1.2em; color:white;
+          }
         </style>
       </head>
-      <body>
+      <body class="dark-theme">
         <div id="chatbox">
           <div id="header">
             <span>🤖 Chatbot T56</span>
+            <button id="themeToggle">🌙</button>
           </div>
           <div id="messages"></div>
           <div id="inputArea">
@@ -130,10 +85,10 @@ def home():
             div.className = "msg " + type;
         
             // Dividir el texto en líneas
-            const lines = text.split(/\n/);
+            const lines = text.split(/\\n/);
         
             // Convertir enlaces en clicables
-            const formatLinks = (line) => line.replace(/(https?:\/\/\S+)/g, '<a href="$1" target="_blank">$1</a>');
+            const formatLinks = (line) => line.replace(/(https?:\\/\\/\\S+)/g, '<a href="$1" target="_blank">$1</a>');
         
             let formatted = "";
         
@@ -206,14 +161,36 @@ def home():
             addMessage(data.reply, "bot");
           }
 
-          // Mensaje de bienvenida automático
+          // Mensaje de bienvenida automático y aplicar tema guardado
           window.onload = function() {
             addMessage("¡Hola! Bienvenido al Chatbot de Informática. Pregúntame sobre evaluaciones o guías.", "bot");
+            const savedTheme = localStorage.getItem("chatTheme");
+            if (savedTheme) {
+              document.body.className = savedTheme;
+              document.getElementById("themeToggle").innerHTML = savedTheme === "dark-theme" ? "🌙" : "☀️";
+            }
+          };
+
+          // Alternar tema y guardar preferencia
+          document.getElementById("themeToggle").onclick = function() {
+            const body = document.body;
+            if (body.classList.contains("dark-theme")) {
+              body.classList.remove("dark-theme");
+              body.classList.add("light-theme");
+              this.innerHTML = "☀️";
+              localStorage.setItem("chatTheme", "light-theme");
+            } else {
+              body.classList.remove("light-theme");
+              body.classList.add("dark-theme");
+              this.innerHTML = "🌙";
+              localStorage.setItem("chatTheme", "dark-theme");
+            }
           };
         </script>
       </body>
     </html>
     """
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
