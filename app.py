@@ -160,6 +160,14 @@ def home():
             const data = await res.json();
             addMessage(data.reply, "bot");
           }
+          // Detectar Enter en el campo de texto
+            document.getElementById("message").addEventListener("keydown", function(event) {
+              if (event.key === "Enter") {
+                event.preventDefault(); // Evita que se inserte un salto de línea
+                sendMessage();
+              }
+            });
+
 
           // Mensaje de bienvenida automático y aplicar tema guardado
           window.onload = function() {
